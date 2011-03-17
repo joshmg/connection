@@ -169,7 +169,7 @@ bool p2p::link(const string &connect_ip) {
     int transmit_addr_size = sizeof(_transmit_addr);
     listen(_listen, SOMAXCONN);
     _transmit = accept(_listen, (sockaddr*)&_transmit_addr, &transmit_addr_size);
-    while ((_transmit==SOCKET_ERROR) && ((LISTEN_TIMEOUT > 0) && ((time(0)-start_time) < LISTEN_TIMEOUT)) && (!_abort_listening)) {
+    while ((_transmit==SOCKET_ERROR) && ((LISTEN_TIMEOUT < 0) || ((time(0)-start_time) < LISTEN_TIMEOUT)) && (!_abort_listening)) {
       if (WSAGetLastError() != WSAEWOULDBLOCK) break;
       Sleep(250);
       _transmit = accept(_listen, (sockaddr*)&_transmit_addr, &transmit_addr_size);
